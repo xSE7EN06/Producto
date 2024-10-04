@@ -78,6 +78,7 @@ public class BoutiqueElegance {
             ordenarPorAnio(inventario);
             System.out.println("Inventario ordenado por año de colección.");
             mostrarInventario(inventario); // Muestra el inventario ordenado
+            salir = false;
                 break;
             case 6:
             salir = true;
