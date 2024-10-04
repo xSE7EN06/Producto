@@ -1,3 +1,6 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class BoutiqueElegance {
     public static void main(String[] args) {
         Prenda[] inventario = new Prenda[10];
@@ -12,6 +15,7 @@ public class BoutiqueElegance {
         inventario[8] = new Prenda("Sandalias de Verano", "Diseñador A", 2022, 35.0);
         inventario[9] = new Prenda("Zapatos de Tacón", "Diseñador B", 2021, 120.0);
 
+        
         mostrarMenuPrincipal();
     }
 
@@ -24,5 +28,17 @@ public class BoutiqueElegance {
         System.out.println(" 3.- Registrar nuevas prendas ");
         System.out.println(" 4.- Salir ");
         System.out.println("Ingrese la opcion correspondiente ");
+    }
+
+    public List<Prenda> consultarDiseñador(Prenda[] inventario, String disenador){
+        ArrayList<Prenda> resultado = new ArrayList<>();
+
+         for (Prenda prenda : inventario) {
+            if (prenda.getDisenador().equalsIgnoreCase(disenador)) {
+                resultado.add(prenda);
+            }
+        }
+
+        return resultado;
     }
 }
