@@ -11,5 +11,18 @@ public class BoutiqueElegance {
         inventario[7] = new Prenda("Traje de Baño", "Diseñador F", 2023, 40.0);
         inventario[8] = new Prenda("Sandalias de Verano", "Diseñador A", 2022, 35.0);
         inventario[9] = new Prenda("Zapatos de Tacón", "Diseñador B", 2021, 120.0);
+
+        mostrarMenuPrincipal();
+    }
+
+    private static void mostrarMenuPrincipal() {
+        System.out.println("\n---------------------------------------");
+        System.out.println("Bienvenidos a BoutiqueElegance");
+        System.out.println("_______________________________________");
+        System.out.println(" 1.- Realizar busqueda por diseñador");
+        System.out.println(" 2.- Calcular valor total del inventario ");
+        System.out.println(" 3.- Registrar nuevas prendas ");
+        System.out.println(" 4.- Salir ");
+        System.out.println("Ingrese la opcion correspondiente ");
     }
 }
