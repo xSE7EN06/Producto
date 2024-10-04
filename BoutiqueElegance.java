@@ -1,58 +1,61 @@
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Scanner;
 
 public class BoutiqueElegance {
     private static Scanner teclado;
-    private static int contador = 10;
+    private static ArrayList<Prenda> inventario = new ArrayList<>();
     public static void main(String[] args) {
         teclado = new Scanner(System.in);
-        Prenda[] inventario = {
-            new Prenda("Vestido de Noche", "Diseñador A", 2022, 150.0),
-            new Prenda("Camisa Casual", "Diseñador B", 2021, 50.0),
-            new Prenda("Pantalón Deportivo", "Diseñador C", 2023, 70.0),
-            new Prenda("Chaqueta de Cuero", "Diseñador D", 2020, 200.0),
-            new Prenda("Falda Elegante", "Diseñador A", 2022, 80.0),
-            new Prenda("Blusa de Seda", "Diseñador B", 2021, 60.0),
-            new Prenda("Abrigo de Invierno", "Diseñador E", 2023, 300.0),
-            new Prenda("Traje de Baño", "Diseñador F", 2023, 40.0),
-            new Prenda("Sandalias de Verano", "Diseñador A", 2022, 35.0),
-            new Prenda("Zapatos de Tacón", "Diseñador B", 2021, 120.0)
-        };
+         // Inicializar el inventario con algunas prendas
+         inventario.add(new Prenda("Vestido de Noche", "Angel", 2022, 150.0));
+         inventario.add(new Prenda("Camisa Casual", "Diego", 2021, 50.0));
+         inventario.add(new Prenda("Pantalón Deportivo", "Diego", 2023, 70.0));
+         inventario.add(new Prenda("Chaqueta de Cuero", "Ana", 2020, 200.0));
+         inventario.add(new Prenda("Falda Elegante", "Juan", 2022, 80.0));
+         inventario.add(new Prenda("Blusa de Seda", "Juan", 2021, 60.0));
+         inventario.add(new Prenda("Abrigo de Invierno", "Marcelo", 2023, 300.0));
+         inventario.add(new Prenda("Traje de Baño", "Marcelo", 2023, 40.0));
+         inventario.add(new Prenda("Sandalias de Verano", "Fernando", 2022, 35.0));
+         inventario.add(new Prenda("Zapatos de Tacón", "Ana", 2021, 120.0));
 
         int opcion;
         boolean salir = false;
 
         do{
             mostrarMenuPrincipal();
-            opcion = teclado.nextInt(); 
+            opcion = teclado.nextInt();
+            teclado.nextLine();
 
             switch (opcion) {
             case 1:
-                do{
+            do {
                 System.out.println("Ingresa el nombre del diseñador");
                 String nombre = teclado.nextLine();
-                ArrayList<Prenda> prendasEncontradas = consultarDisenador(inventario, nombre);
-                System.out.println("Prendas encontradas para " + nombre + ":");
-                for (Prenda prenda : prendasEncontradas) {
-                    System.out.println("Prenda: " + prenda.getNombrePrenda() + ", Año: " + prenda.getAnioColeccion() + ", Precio: " + prenda.getPrecio());
+                
+                ArrayList<Prenda> prendasEncontradas = consultarDisenador(nombre);
+                
+                if (prendasEncontradas.isEmpty()) {
+                    System.out.println("No se encontraron prendas para el diseñador " + nombre + ".");
+                } else {
+                    System.out.println("Prendas encontradas para " + nombre + ":");
+                    for (Prenda prenda : prendasEncontradas) {
+                        System.out.println("Prenda: " + prenda.getNombrePrenda() + ", Año: " + prenda.getAnioColeccion() + ", Precio: " + prenda.getPrecio());
+                    }
                 }
-
+            
                 System.out.println("¿Deseas buscar otro diseñador? (si/no)");
                 String respuesta = teclado.next();
-                if(respuesta.equals("si")){
-                    salir = false;
-                }else{
-                    salir = true;
-                }
-               }while(!salir);
-                salir = false;
+                salir = !respuesta.equalsIgnoreCase("si"); // Simplificando la lógica
+            } while (!salir);
+            salir = false;
                 break;
             case 2:
-                double total = calcularTotal(inventario);
+                double total = calcularTotal();
                 System.out.println("El precio total de todos los articulos es de: "+total);
                 break;
             case 3:
-            if(contador < inventario.length){
                 System.out.println("Ingresa el nombre de la prenda");
                 String nombrePrenda = teclado.nextLine();
 
@@ -66,21 +69,15 @@ public class BoutiqueElegance {
                 double precio = teclado.nextDouble();
                 teclado.nextLine();
 
-                inventario[contador] = new Prenda(nombrePrenda, nombreDisenador, anio, precio);
-                contador++; // Incrementar el contador
-                System.out.println("Prenda agregada exitosamente.");
-
-            }else {
-                System.out.println("El inventario está lleno. No se pueden agregar más prendas.");
-            }
+                Prenda objPrenda = new Prenda(nombrePrenda, nombreDisenador, anio, precio);
+                inventario.add(objPrenda); // Agregar la nueva prenda al ArrayList
+                System.out.println("Prenda agregada con éxito.");
                 break;
-            case 5:
-            ordenarPorAnio(inventario);
-            System.out.println("Inventario ordenado por año de colección.");
-            mostrarInventario(inventario); // Muestra el inventario ordenado
+            case 4:
+            ordenarPorAnio();
             salir = false;
                 break;
-            case 6:
+            case 5:
             salir = true;
                 break;
                 default:
@@ -99,12 +96,12 @@ public class BoutiqueElegance {
         System.out.println(" 1.- Realizar busqueda por diseñador");
         System.out.println(" 2.- Calcular valor total del inventario ");
         System.out.println(" 3.- Registrar nuevas prendas ");
-        System.out.println(" 5.- Ordenar inventario por año ");
-        System.out.println(" 6.- Salir");
+        System.out.println(" 4.- Ordenar inventario por año ");
+        System.out.println(" 5.- Salir");
         System.out.println("Ingrese la opcion correspondiente ");
     }
 
-    public static ArrayList<Prenda> consultarDisenador(Prenda[] inventario, String disenador){
+    public static ArrayList<Prenda> consultarDisenador(String disenador){
         ArrayList<Prenda> resultado = new ArrayList<>();
 
          for (Prenda prenda : inventario) {
@@ -116,7 +113,7 @@ public class BoutiqueElegance {
         return resultado;
     }
 
-    public static double calcularTotal(Prenda[] inventario){
+    public static double calcularTotal(){
         double tota = 0.0;
 
         for(Prenda prenda: inventario){
@@ -126,21 +123,18 @@ public class BoutiqueElegance {
         return tota;
     }
 
-    public static void ordenarPorAnio(Prenda[] inventario) {
-        for (int i = 0; i < inventario.length - 1; i++) {
-            for (int j = 0; j < inventario.length - 1 - i; j++) {
-                // Comparar los años de colección
-                if (inventario[j].getAnioColeccion() > inventario[j + 1].getAnioColeccion()) {
-                    // Intercambiar prendas si están en el orden incorrecto
-                    Prenda temp = inventario[j];
-                    inventario[j] = inventario[j + 1];
-                    inventario[j + 1] = temp;
-                }
+     public static void ordenarPorAnio() {
+        Collections.sort(inventario, new Comparator<Prenda>() {
+            @Override
+            public int compare(Prenda p1, Prenda p2) {
+                return Integer.compare(p1.getAnioColeccion(), p2.getAnioColeccion());
             }
-        }
+        });
+        System.out.println("Inventario ordenado por año.");
+        mostrarInventario(); // Método para mostrar el inventario
     }
 
-    public static void mostrarInventario(Prenda[] inventario) {
+    public static void mostrarInventario() {
         for (Prenda prenda : inventario) {
             if (prenda != null) { 
                 System.out.println("Prenda: " + prenda.getNombrePrenda() + ", Año: " + prenda.getAnioColeccion() + ", Precio: " + prenda.getPrecio());
