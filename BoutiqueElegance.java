@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class BoutiqueElegance {
@@ -108,5 +107,15 @@ public class BoutiqueElegance {
         }
 
         return resultado;
+    }
+
+    public static double calcularTotal(Prenda[] inventario){
+        double tota = 0.0;
+
+        for(Prenda prenda: inventario){
+            tota += prenda.getPrecio();
+        }
+
+        return tota;
     }
 }
