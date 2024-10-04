@@ -1,8 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class BoutiqueElegance {
+    private static Scanner teclado;
     public static void main(String[] args) {
+        teclado = new Scanner(System.in);
         Prenda[] inventario = new Prenda[10];
         inventario[0] = new Prenda("Vestido de Noche", "Diseñador A", 2022, 150.0);
         inventario[1] = new Prenda("Camisa Casual", "Diseñador B", 2021, 50.0);
@@ -15,7 +18,49 @@ public class BoutiqueElegance {
         inventario[8] = new Prenda("Sandalias de Verano", "Diseñador A", 2022, 35.0);
         inventario[9] = new Prenda("Zapatos de Tacón", "Diseñador B", 2021, 120.0);
 
-        
+        int opcion;
+        boolean salir = false;
+
+        do{
+            mostrarMenuPrincipal();
+            opcion = teclado.nextInt(); 
+
+            switch (opcion) {
+                case 1:
+                do{
+                System.out.println("Ingresa el nombre del diseñador");
+                String nombre = teclado.nextLine();
+                ArrayList<Prenda> prendasEncontradas = consultarDisenador(inventario, nombre);
+                System.out.println("Prendas encontradas para " + nombre + ":");
+                for (Prenda prenda : prendasEncontradas) {
+                    System.out.println("Prenda: " + prenda.getNombrePrenda() + ", Año: " + prenda.getAnioColeccion() + ", Precio: " + prenda.getPrecio());
+                }
+
+                System.out.println("¿Deseas buscar otro diseñador? (si/no)");
+                String respuesta = teclado.next();
+                if(respuesta.equals("si")){
+                    salir = false;
+                }else{
+                    salir = true;
+                }
+               }while(!salir);
+                salir = false;
+                break;
+                case 2:
+
+                break;
+                case 3:
+
+                break;
+                case 4:
+
+                break;
+                default:
+                System.out.println("No existe el valor favor de intentar de nuevo.");
+                salir = false;
+                break;
+            }
+        }while(!salir);
         mostrarMenuPrincipal();
     }
 
@@ -30,7 +75,7 @@ public class BoutiqueElegance {
         System.out.println("Ingrese la opcion correspondiente ");
     }
 
-    public List<Prenda> consultarDiseñador(Prenda[] inventario, String disenador){
+    public static ArrayList<Prenda> consultarDisenador(Prenda[] inventario, String disenador){
         ArrayList<Prenda> resultado = new ArrayList<>();
 
          for (Prenda prenda : inventario) {
