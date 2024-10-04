@@ -74,7 +74,12 @@ public class BoutiqueElegance {
                 System.out.println("El inventario está lleno. No se pueden agregar más prendas.");
             }
                 break;
-            case 4:
+            case 5:
+            ordenarPorAnio(inventario);
+            System.out.println("Inventario ordenado por año de colección.");
+            mostrarInventario(inventario); // Muestra el inventario ordenado
+                break;
+            case 6:
             salir = true;
                 break;
                 default:
@@ -93,7 +98,8 @@ public class BoutiqueElegance {
         System.out.println(" 1.- Realizar busqueda por diseñador");
         System.out.println(" 2.- Calcular valor total del inventario ");
         System.out.println(" 3.- Registrar nuevas prendas ");
-        System.out.println(" 4.- Salir ");
+        System.out.println(" 5.- Ordenar inventario por año ");
+        System.out.println(" 6.- Salir");
         System.out.println("Ingrese la opcion correspondiente ");
     }
 
@@ -117,5 +123,27 @@ public class BoutiqueElegance {
         }
 
         return tota;
+    }
+
+    public static void ordenarPorAnio(Prenda[] inventario) {
+        for (int i = 0; i < inventario.length - 1; i++) {
+            for (int j = 0; j < inventario.length - 1 - i; j++) {
+                // Comparar los años de colección
+                if (inventario[j].getAnioColeccion() > inventario[j + 1].getAnioColeccion()) {
+                    // Intercambiar prendas si están en el orden incorrecto
+                    Prenda temp = inventario[j];
+                    inventario[j] = inventario[j + 1];
+                    inventario[j + 1] = temp;
+                }
+            }
+        }
+    }
+
+    public static void mostrarInventario(Prenda[] inventario) {
+        for (Prenda prenda : inventario) {
+            if (prenda != null) { 
+                System.out.println("Prenda: " + prenda.getNombrePrenda() + ", Año: " + prenda.getAnioColeccion() + ", Precio: " + prenda.getPrecio());
+            }
+        }
     }
 }
